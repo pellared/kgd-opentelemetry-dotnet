@@ -16,7 +16,7 @@
 
 ## Contact
 
-- email: robert.pajak@hotmail.com
+- email: pellared@hotmail.com
 - LinkedIn: [rpajak](https://www.linkedin.com/in/rpajak)
 - GitHub: [pellared](https://github.com/pellared)
 
