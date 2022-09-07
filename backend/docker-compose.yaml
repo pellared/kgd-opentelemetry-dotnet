@@ -1,0 +1,43 @@
+version: "2"
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-CU17-ubuntu-20.04
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password
+    ports:
+      - "1433:1433"
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.37.0
+    ports:
+      - "16686:16686"
+      - "14250:14250"
+      - "14268:14268"
+
+  prometheus:
+    image: prom/prometheus:v2.38.0
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.51.0
+    volumes:
+      - ./otel-config.yaml:/etc/otel/config.yaml
+      - ./log:/log/otel
+    command: --config /etc/otel/config.yaml
+    environment:
+      - JAEGER_ENDPOINT=jaeger:14250
+    ports:
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP http/protobuf receiver
+      - "8888:8888"   # Prometheus metrics scrape endpoint with collector telemetry
+      - "8889:8889"   # Prometheus metrics exporter (scrape endpoint)
+      - "13133:13133" # health_check extension
+      - "55679:55679" # ZPages extension
+    depends_on:
+      - jaeger
+      - prometheus
