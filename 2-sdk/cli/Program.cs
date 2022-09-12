@@ -1,5 +1,6 @@
 ﻿// Example usage:
 //     dotnet run http://localhost:5200
+//     dotnet run http://badhost
 //     dotnet run http://localhost:5200/metrics
 
 using OpenTelemetry.Exporter;

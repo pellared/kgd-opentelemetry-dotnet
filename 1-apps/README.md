@@ -4,3 +4,5 @@
 
 [cli](cli) is a console application that makes HTTP GET requests
 and prints the response to stdout.
+
+See `Program.cs` for running instructions.
